@@ -24,7 +24,7 @@ Configs: {
 
 		ExplosionSize: {
 			Label: Explosion Size
-			Tooltip: 
+			Tooltip:
 				'''
 				Radius of explosions made when mining tiles
 				[c/FF0000:WARNING: ]High values can cause [c/FF0000:chain reactions]
