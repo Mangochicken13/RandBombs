@@ -1,0 +1,65 @@
+Configs: {
+	BombConfigs: {
+		DisplayName: Bomb Configs
+
+		NumberOfBombs: {
+			Label: Number Of Bombs
+			Tooltip:
+				'''
+				The number of bombs to generate.
+				A small world has around 5,000,000 tiles, so 12,500 is 1 explosive every 400 tiles on average
+				There is a hard cap of 200,000 for this config, you can edit the number manually at risk of large file sizes and crashing during world gen
+				'''
+		}
+
+		DefaultValues: {
+			Label: Default Values
+			Tooltip:
+				'''
+				Small: 12,500
+				Medium: 28,750
+				Large: 50,000
+				'''
+		}
+
+		ExplosionSize: {
+			Label: Explosion Size
+			Tooltip: 
+				'''
+				Radius of explosions made when mining tiles
+				[c/FF0000:WARNING: ]High values can cause [c/FF0000:chain reactions]
+				THIS CAN BE LAGGY AND POTENTIALLY CRASH
+				'''
+		}
+
+		Damage: {
+			Label: Damage
+			Tooltip: ""
+		}
+
+		ScaleDamageInHardmode: {
+			Label: Scale Damage In Hardmode
+			Tooltip:
+				'''
+				Whether the damage should scale up when entering hardmode
+				May cause pain
+				'''
+		}
+
+		FollowNormalExplosionRules: {
+			Label: Follow Normal Explosion Rules
+			Tooltip: ""
+		}
+
+		SingleUseBombs: {
+			Label: Single Use Bombs
+			Tooltip:
+				'''
+				Makes the bombs only explode once
+				Turning this off will mean they explode again if you place and mine a block where the bomb was
+				'''
+		}
+	}
+}
+
+Projectiles.VariableExplosive.DisplayName: A Hidden Explosive

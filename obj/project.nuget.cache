@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "pnDBzsO5km27MddUzsfKnQDXuKtqpXE1GnYhwjc5q+1JJBqVbBM/RbWNSa2ik24iTFN/RG0jDhKmXYZjMJnfMA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lucas\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\RandBombs\\RandBombs.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lucas\\.nuget\\packages\\tmodloader.codeassist\\0.1.5\\tmodloader.codeassist.0.1.5.nupkg.sha512"
+  ],
+  "logs": []
+}

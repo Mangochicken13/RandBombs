@@ -1,0 +1,5 @@
+Random Explosives. Pretty self explanatory huh?
+But in all seriousness, this mod makes random tiles explode when you mine them (Determined by the world seed!)
+You should be able to change all the important values in the configs of this mod.
+
+If you encounter any bugs or have a feature suggestion DM them to me at mangochicken_ on discord

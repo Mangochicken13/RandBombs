@@ -1,0 +1,3 @@
+displayName = Random Explosives
+author = Mangochicken
+version = 1
