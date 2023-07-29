@@ -63,3 +63,10 @@ Configs: {
 }
 
 Projectiles.VariableExplosive.DisplayName: A Hidden Explosive
+
+Items: {
+	MineSweeper: {
+		DisplayName: Mine Sweeper
+		Tooltip: ""
+	}
+}

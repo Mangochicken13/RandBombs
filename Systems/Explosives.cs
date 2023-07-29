@@ -12,7 +12,7 @@ namespace RandBombs.Systems
 {
     public class Explosives : ModSystem
     {
-        private static bool BombsGenerated;
+        public bool BombsGenerated;
         public Point16[] BombLocations;
 
         public override void PreWorldGen()
@@ -25,20 +25,15 @@ namespace RandBombs.Systems
             BombLocations = new Point16[amountBombs];
             for (int i = 0; i < amountBombs; i++)
             {
-
-                for (int j = 0; j < 500; j++)
+                Point16 point = new(WorldGen.genRand.Next(0, Main.maxTilesX), WorldGen.genRand.Next(0, Main.maxTilesY));
+                if (BombLocations.Contains(point)) //make sure no two values are identical
                 {
-
-                    Point16 point = new(WorldGen.genRand.Next(0, Main.maxTilesX), WorldGen.genRand.Next(0, Main.maxTilesY));
-                    if (BombLocations.Contains(point))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        BombLocations[i] = point;
-                        break;
-                    }
+                    BombLocations[i] = Point16.NegativeOne;
+                }
+                else
+                {
+                    BombLocations[i] = point;
+                    break;
                 }
             }
 
@@ -70,6 +65,12 @@ namespace RandBombs.Systems
         {
             BombsGenerated = tag.GetBool("BombsGenerated");
             BombLocations = tag.Get<Point16[]>("BombLocations");
+        }
+
+        public override void ClearWorld()
+        {
+            BombsGenerated = false;
+            BombLocations = Array.Empty<Point16>();
         }
     }
 
