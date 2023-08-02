@@ -19,7 +19,42 @@ namespace RandBombs.Systems
         {
             BombLocations = new Point16[1] { new(0, 0) };
         }
+
         public override void PostWorldGen()
+        {
+            int amountBombs = ModContent.GetInstance<BombConfigs>().NumberOfBombs;
+            BombLocations = new Point16[amountBombs];
+            for (int i = 0; i < amountBombs; i++)
+            {
+
+                //for (int j = 0; j < 5; j++) //i tried to remove this but it broke everything?? doesn't make sense to me but w/e
+                //{
+                    Point16 point = new(WorldGen.genRand.Next(0, Main.maxTilesX), WorldGen.genRand.Next(0, Main.maxTilesY));
+                    if (BombLocations.Contains(point))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        BombLocations[i] = point;
+                        break;
+                    }
+                //}
+            }
+
+            for (int k = 0; k < amountBombs; k++)
+            {
+                Point16 point = BombLocations[k];
+                if (!Main.tile[point.ToPoint()].HasTile)
+                {
+                    BombLocations[k] = Point16.NegativeOne;
+                }
+            }
+
+            BombsGenerated = true;
+        }
+
+        /*public override void PostWorldGen()
         {
             int amountBombs = ModContent.GetInstance<BombConfigs>().NumberOfBombs;
             BombLocations = new Point16[amountBombs];
@@ -46,8 +81,8 @@ namespace RandBombs.Systems
                 }
             }
 
-            BombsGenerated = true;
-        }
+        BombsGenerated = true;
+        }*/
 
         public override void OnWorldLoad()
         {
@@ -67,11 +102,11 @@ namespace RandBombs.Systems
             BombLocations = tag.Get<Point16[]>("BombLocations");
         }
 
-        public override void ClearWorld()
+        /*public override void ClearWorld()
         {
             BombsGenerated = false;
             BombLocations = Array.Empty<Point16>();
-        }
+        }*/
     }
 
     public class ExplosiveTile : GlobalTile

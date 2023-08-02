@@ -66,7 +66,14 @@ Projectiles.VariableExplosive.DisplayName: A Hidden Explosive
 
 Items: {
 	MineSweeper: {
-		DisplayName: Mine Sweeper
-		Tooltip: ""
+		DisplayName: Mine-Sweeper
+		Tooltip:
+			'''
+			This seems to remind you of something from a previous life... strange..
+			Using it seems to generate some mines in worlds if there weren't any present initially
+			Using it in a world where mines were already generated makes more inexplicably appear, even in locations where they have previously detonated
+			Right click to add more total mines to the world, increasing [c/1EFF00:beyond] the amount generated via the config
+			You think that exercising caution when using this would be advised
+			'''
 	}
 }
