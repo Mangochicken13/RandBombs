@@ -65,7 +65,7 @@ namespace RandBombs.Items
                                 }
                             }
                         }
-                        Main.NewText($"You seem to notice {b} more inactive mines in the world"); //flavour text to tell the user what happens
+                        Main.NewText($"You seem to notice {b} more active mines in the world"); //flavour text to tell the user what happens
                     }
                     else { Main.NewTextMultiline("Nothing seems to have happened...\n(try using the other mouse key)"); }
                 }
@@ -127,13 +127,12 @@ namespace RandBombs.Items
                     }
                 }
             }
-
             return true;
         }
 
         public override bool AltFunctionUse(Player player)
         {
             return true;
-        }
+        } //enables right click usage
     }
 }
