@@ -114,24 +114,59 @@ namespace RandBombs.Systems
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             //bool WorldGenActive = WorldGen.
-            var Explosives = ModContent.GetInstance<Explosives>();
-            var BombConfig = ModContent.GetInstance<BombConfigs>();
-            Point16 point = new(i, j);
-            int damage = BombConfig.Damage;
-
-            if (BombConfig.ScaleDamageInHardmode && Main.hardMode == true)
+            if (ModContent.GetInstance<BombConfigs>().CompletelyRandomise == false)
             {
-                damage *= 2;
-            }
+                var Explosives = ModContent.GetInstance<Explosives>();
+                var BombConfig = ModContent.GetInstance<BombConfigs>();
+                Point16 point = new(i, j);
+                int damage = BombConfig.Damage;
 
-            if (Explosives.BombLocations.Contains(point))
-            {
-                Projectile.NewProjectile(new EntitySource_TileBreak(i, j, Main.tile[i,j].TileType.ToString()), new Vector2(i, j).ToWorldCoordinates(), new(0,0), ModContent.ProjectileType<VariableExplosive>(), damage, 5f);
-                if (BombConfig.SingleUseBombs)
+                if (BombConfig.ScaleDamageInHardmode && Main.hardMode == true)
                 {
-                    int index = Array.IndexOf(Explosives.BombLocations, new Point16(i, j));
-                    Explosives.BombLocations[index] = Point16.NegativeOne;
+                    damage *= 2;
                 }
+
+                if (Explosives.BombLocations.Contains(point))
+                {
+                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j, Main.tile[i, j].TileType.ToString()), new Vector2(i, j).ToWorldCoordinates(), new(0, 0), ModContent.ProjectileType<VariableExplosive>(), damage, 5f);
+                    if (BombConfig.SingleUseBombs)
+                    {
+                        int index = Array.IndexOf(Explosives.BombLocations, new Point16(i, j));
+                        Explosives.BombLocations[index] = Point16.NegativeOne;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                var BombConfig = ModContent.GetInstance<BombConfigs>();
+
+                if (Main.rand.Next(0, BombConfig.RandomiseDenominator) == 0)
+                {
+                    int damage = BombConfig.Damage;
+                    if (BombConfig.ScaleDamageInHardmode && Main.hardMode == true)
+                    {
+                        damage *= 2;
+                    }
+
+                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j, Main.tile[i, j].TileType.ToString()), new Vector2(i, j).ToWorldCoordinates(), new(0), ModContent.ProjectileType<VariableExplosive>(), damage, 5f);
+                }
+            }
+        }
+    }
+
+    public class JoinMessage : ModPlayer
+    {
+        public override void OnEnterWorld()
+        {
+            if (ModContent.GetInstance<BombConfigs>().ShowJoinMessage)
+            {
+                Main.NewText(
+                    """
+                    You seem to enjoy explosions
+                    This mod is set up by default for a small world
+                    Please make sure to check the configs for this mod so you can make this experience to your liking
+                    """);
             }
         }
     }

@@ -8,11 +8,21 @@ namespace RandBombs.Configs
     {
         public override ConfigScope Mode => ConfigScope.ServerSide;
 
+        [DefaultValue(false)]
+        [Header("Randomisation")]
+        public bool CompletelyRandomise;
+
+        [DefaultValue(200)]
+        [Range(25, 5000)]
+        public int RandomiseDenominator;
+
+        [Header("Information")]
+        public bool DefaultValues;
+
         [DefaultValue(12500)]
         [Range(1, 200000)]
+        [Header("BombOptions")]
         public int NumberOfBombs;
-
-        public bool DefaultValues;
 
         [DefaultValue(8)]
         [Range(1, 50)]
@@ -27,6 +37,9 @@ namespace RandBombs.Configs
 
         [DefaultValue(true)]
         public bool SingleUseBombs;
+
+        [Header("JoinMessage")]
+        public bool ShowJoinMessage;
 
         [DefaultValue(true)]
         private bool FollowNormalExplosionRules;
