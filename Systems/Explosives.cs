@@ -7,6 +7,9 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using Terraria.WorldBuilding;
+using Terraria.IO;
 
 namespace RandBombs.Systems
 {
@@ -20,69 +23,10 @@ namespace RandBombs.Systems
             BombLocations = new Point16[1] { new(0, 0) };
         }
 
-        public override void PostWorldGen()
+        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
-            int amountBombs = ModContent.GetInstance<BombConfigs>().NumberOfBombs;
-            BombLocations = new Point16[amountBombs];
-            for (int i = 0; i < amountBombs; i++)
-            {
-
-                //for (int j = 0; j < 5; j++) //i tried to remove this but it broke everything?? doesn't make sense to me but w/e
-                //{
-                    Point16 point = new(WorldGen.genRand.Next(0, Main.maxTilesX), WorldGen.genRand.Next(0, Main.maxTilesY));
-                    if (BombLocations.Contains(point))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        BombLocations[i] = point;
-                        break;
-                    }
-                //}
-            }
-
-            for (int k = 0; k < amountBombs; k++)
-            {
-                Point16 point = BombLocations[k];
-                if (!Main.tile[point.ToPoint()].HasTile)
-                {
-                    BombLocations[k] = Point16.NegativeOne;
-                }
-            }
-
-            BombsGenerated = true;
+            tasks.Add(new BombsPass("Random Explosives Bombs", 3f));
         }
-
-        /*public override void PostWorldGen()
-        {
-            int amountBombs = ModContent.GetInstance<BombConfigs>().NumberOfBombs;
-            BombLocations = new Point16[amountBombs];
-            for (int i = 0; i < amountBombs; i++)
-            {
-                Point16 point = new(WorldGen.genRand.Next(0, Main.maxTilesX), WorldGen.genRand.Next(0, Main.maxTilesY));
-                if (BombLocations.Contains(point)) //make sure no two values are identical
-                {
-                    BombLocations[i] = Point16.NegativeOne;
-                }
-                else
-                {
-                    BombLocations[i] = point;
-                    break;
-                }
-            }
-
-            for (int k = 0; k < amountBombs; k++)
-            {
-                Point16 point = BombLocations[k];
-                if (!Main.tile[point.ToPoint()].HasTile)
-                {
-                    BombLocations[k] = Point16.NegativeOne;
-                }
-            }
-
-        BombsGenerated = true;
-        }*/
 
         public override void OnWorldLoad()
         {
@@ -101,12 +45,51 @@ namespace RandBombs.Systems
             BombsGenerated = tag.GetBool("BombsGenerated");
             BombLocations = tag.Get<Point16[]>("BombLocations");
         }
+    }
 
-        /*public override void ClearWorld()
+    public class BombsPass : GenPass
+    {
+        public Point16[] BombLocations;
+        public BombsPass(string name, float loadWeight) : base(name, loadWeight) { }
+
+        protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
         {
-            BombsGenerated = false;
-            BombLocations = Array.Empty<Point16>();
-        }*/
+            progress.Message = "Generating Hidden Explosives";
+
+            int amountBombs = ModContent.GetInstance<BombConfigs>().NumberOfBombs;
+
+            BombLocations = new Point16[amountBombs];
+            int n = 0;
+            for (int i = 0; i < amountBombs; i++)
+            {
+                progress.Set((float)i / amountBombs * 0.8f);
+                Point16 point = new(WorldGen.genRand.Next(0, Main.maxTilesX), WorldGen.genRand.Next(0, Main.maxTilesY));
+                if (BombLocations.Contains(point))
+                {
+                    n++;
+                    continue;
+                }
+                else
+                {
+                    BombLocations[i] = point;
+                }
+
+            }
+            ModContent.GetInstance<RandBombs>().Logger.InfoFormat("{0} mines are inactive", n);
+
+            for (int k = 0; k < amountBombs; k++)
+            {
+                progress.Set(0.8 + (float)k / amountBombs * 0.2f);
+                Point16 point = BombLocations[k];
+                if (!Main.tile[point.ToPoint()].HasTile)
+                {
+                    BombLocations[k] = Point16.NegativeOne;
+                }
+            }
+
+            ModContent.GetInstance<Explosives>().BombLocations = BombLocations;
+            ModContent.GetInstance<Explosives>().BombsGenerated = true;
+        }
     }
 
     public class ExplosiveTile : GlobalTile
