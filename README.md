@@ -5,4 +5,4 @@ This thingamabob is actually fully* customisable, there's configs for basically 
 ###### *probably not actually fully customisable, but it's pretty good imo
 
 ### Bug Reports
-If you have any sort of issue, feel free to either open an issue on this repo, or dm me @mangochkn_ on discord
+If you have any sort of issue, feel free to either open an issue on this repo, or dm me @mangochicken_ on discord
